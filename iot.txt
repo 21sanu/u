@@ -1,0 +1,61 @@
+void setup()
+{
+pinMode(13,OUTPUT);//LED connected
+pinMode(9,INPUT);//IR CONNECTED
+Serial.begin(9600);
+}
+void loop()
+{
+if (digitalRead(9)== LOW)
+{
+digitalWrite(13,HIGH);
+delay(10);
+}
+else
+{
+digitalWrite(13,LOW);
+delay(10);
+}
+}
+
+
+
+
+import RPi.GPIO as GPIO
+import time
+import Adafruit_DHT
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.IN)
+
+while True:
+    hum, temp = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
+    print("Temp:", temp)
+    print("Humidity:", hum)
+
+    if temp is not None and temp > 30:
+        print("⚠ Alert: Temperature above 30°C!")
+
+    if hum is not None and hum > 60:
+        print("⚠ Alert: Humidity above 60%!")
+
+    time.sleep(2)
+
+
+
+
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode (GPIO.BCM) GPIO.setup(18,GPIO.IN)
+
+try:
+while True:
+i = GPIO.input(18)
+
+if i==1:
+print("No Obstacle") time.sleep(0.1)
+elif i==0:
+print("Obstacle Found") time.sleep(0.1)
+
+except KeyboardInterrupt:
+GPIO.cleanup()
